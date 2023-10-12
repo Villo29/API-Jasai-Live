@@ -1,10 +1,5 @@
-# API JASAI ART 
+# API JASAI-LIVE
 
 
 
-INTEGRANTES 
-
-CARLOS IVAN CRUZ ZARMIENTO
-
-
-JESUS DAVID RUIZ GARCIA
+API creada por el buen villo29 y con un poco de ayuda de un buen amigo 
