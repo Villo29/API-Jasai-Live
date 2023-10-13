@@ -50,7 +50,7 @@ app.listen(PORT, async () => {
 
 const accountLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hora
-  max: 55, // limita cada IP a 6 peticiones por el tiempo definido con "windowMs"
+  max: 1005, // limita cada IP a 6 peticiones por el tiempo definido con "windowMs"
   message: "Demasiadas peticiones realizadas, intenta despues de 1 hora"
 });
 

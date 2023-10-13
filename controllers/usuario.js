@@ -6,20 +6,20 @@ const jwt = require("jsonwebtoken")
 
 const validLogin= async (req, res) => {
   try {
-    let username = req.params.UsuarioNOMBRE
+    let username = req.params.UsuarioCORREO
     let password = req.params.UsuarioCONTRASENA
     let datos = []
-    const user = await Usuario.findOne({Nombre: req.params.UsuarioNOMBRE}).exec()
-    let test = user;
-    jwt.sign({user: test}, "chupalo", (err, token) => {
+    const user = await Usuario.findOne({Correo: req.params.UsuarioCORREO}).exec()
+    let JasaiLive = user;
+    jwt.sign({user: JasaiLive}, "chupalo", (err, token) => {
     if (!user) {
       return res.status(404).send({ message: "Usuario no encontrado" })
     } 
-    if (username === user.Nombre) {
+    if (username === user.Correo) {
       console.log("paso if user")
       if(password === user.Contrasena){
         console.log('paso if passw')
-        datos.push(user._id,user.Nombre)
+        datos.push(user._id,user.Correo)
         console.log(username, password, datos , token)
         return res.status(200).send({ message: "Has iniciado sesion"})
       } else {
@@ -39,7 +39,7 @@ const getUsuario = async (req, res) => {
   jwt.verify(req.token,'chupalo', (error, authData) =>{  
     Usuario.find((err, usuario) => {
     if (err) {
-      res.send(err);
+      res.send(error);
     }
     res.json(usuario,authData);
   });
