@@ -4,46 +4,48 @@ const jwt = require("jsonwebtoken")
 
 
 
-const validLogin= async (req, res) => {
+const validLogin = async (req, res) => {
   try {
-    let username = req.params.UsuarioCORREO
-    let password = req.params.UsuarioCONTRASENA
-    let datos = []
-    const user = await Usuario.findOne({Correo: req.params.UsuarioCORREO}).exec()
+    let username = req.params.UsuarioCORREO;
+    let password = req.params.UsuarioCONTRASENA;
+    let datos = [];
+
+    const user = await Usuario.findOne({ Correo: req.params.UsuarioCORREO }).exec();
     let JasaiLive = user;
-    jwt.sign({user: JasaiLive}, "chupalo", (err, token) => {
+
     if (!user) {
-      return res.status(404).send({ message: "Usuario no encontrado" })
-    } 
+      return res.status(404).send({ message: "Usuario no encontrado" });
+    }
+
     if (username === user.Correo) {
-      console.log("paso if user")
-      if(password === user.Contrasena){
-        console.log('paso if passw')
-        datos.push(user._id,user.Correo)
-        console.log(username, password, datos , token)
-        return res.status(200).send({ message: "Has iniciado sesion"})
+      if (password === user.Contrasena) {
+        jwt.sign({ user: JasaiLive }, "chupalo", (err, token) => {
+          datos.push(user.Correo, token);
+          return res.status(200).send({ message: "Has iniciado sesión"});
+        });
       } else {
-        return res.status(400).send({ message: "Contraseña incorrecta" })
+        return res.status(400).send({ message: "Contraseña incorrecta" });
       }
     } else {
-      return res.status(400).send({ message: "Nombre de usuario incorrecto" })
-    }});
+      return res.status(400).send({ message: "Nombre de usuario incorrecto" });
+    }
   } catch (error) {
-    console.error(error)
-    return res.status(500).send({ error: "Error en el servidor" })
+    console.error(error);
+    return res.status(500).send({ error: "Error en el servidor" });
   }
-}; 
+};
+
 
 
 const getUsuario = async (req, res) => {
-  jwt.verify(req.token,'chupalo', (error, authData) =>{  
+  jwt.verify(req.token, 'chupalo', (error, authData) => {
     Usuario.find((err, usuario) => {
-    if (err) {
-      res.send(error);
-    }
-    res.json(usuario,authData);
+      if (err) {
+        res.send(error);
+      }
+      res.json(usuario, authData);
+    });
   });
-});
 };
 
 
@@ -56,11 +58,11 @@ const createUsuario = async (req, res) => {
   });
 
   usuario.save(async (err, usuario) => {
-    
+
     if (err) {
       res.send(err);
     }
-    res.json( usuario );
+    res.json(usuario);
   });
 };
 
