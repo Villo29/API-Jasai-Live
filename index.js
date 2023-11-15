@@ -11,13 +11,13 @@ const fs = require('fs');
 
 // variables de entorno
 dotenv.config();
-
+app.use(cors())
 
 // Puerto
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 const app = express();
 
-const port = 444;
+const port = 443;
 
 
 //Creando Certificado HTTPS
@@ -31,10 +31,6 @@ app.get('/', function (req, res) {
   res.send('Hola, estas en la pagina inicial');
   console.log('Se recibio una petición get a través de https');
 });
-
-
-
-
 
 
 // Libreria para mongodb - usa URL que debe existir en .env
@@ -52,7 +48,7 @@ mongoose
     console.log(err);
   });
 
-app.use(cors())
+
 
 
 //
