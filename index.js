@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const rateLimit = require("express-rate-limit");
+const https = require('https');
+const fs = require('fs');
 
 
 // variables de entorno
@@ -15,7 +17,23 @@ dotenv.config();
 const PORT = process.env.PORT || 3000;
 const app = express();
 
-const PUERTO = 443;
+const port = 443;
+
+
+//Creando Certificado HTTPS
+https.createServer({
+  cert: fs.readFileSync('/etc/letsencrypt/archive/api.jasailive.xyz/fullchain1.pem'),
+  key: fs.readFileSync('/etc/letsencrypt/archive/api.jasailive.xyz/privkey1.pem')
+}, app).listen(port, function () {
+  console.log('Servidor https corriendo en el puerto 443');
+})
+app.get('/', function (req, res) {
+  res.send('Hola, estas en la pagina inicial');
+  console.log('Se recibio una petición get a través de https');
+});
+
+
+
 
 
 
@@ -25,7 +43,7 @@ mongoose
   .connect(process.env.MONGODB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    dbName: 'JasaiLive', 
+    dbName: 'JasaiLive',
   })
   .then(() => {
     console.log("Connected to MongoDB");
@@ -54,6 +72,6 @@ const accountLimiter = rateLimit({
   message: "Demasiadas peticiones realizadas, intenta despues de 1 hora"
 });
 
-app.get("/usuario", accountLimiter,  (req, res) => {
+app.get("/usuario", accountLimiter, (req, res) => {
   res.send('IP bloqueada por pendejo')
 });
