@@ -20,7 +20,7 @@ const app = express();
 https.createServer({
   cert: fs.readFileSync('/etc/letsencrypt/archive/usuarios.jasailive.xyz/fullchain1.pem'),
   key: fs.readFileSync('/etc/letsencrypt/archive/usuarios.jasailive.xyz/privkey1.pem')
-}, app).listen(port, function () {
+}, app).listen(PORT, function () {
   console.log('Servidor https corriendo en el puerto 443');
 })
 app.get('/', function (req, res) {
@@ -53,10 +53,6 @@ app.use(express.urlencoded({ extended: false }));
 
 // uso de router.js
 app.use(router);
-
-app.listen(PORT, async () => {
-  console.log(`server up on port ${PORT}`);
-});
 
 const accountLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hora
