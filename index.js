@@ -11,13 +11,9 @@ const fs = require('fs');
 
 // variables de entorno
 dotenv.config();
-
-
 // Puerto
 const PORT = process.env.PORT || 3000;
 const app = express();
-
-const port = 443;
 
 
 //Creando Certificado HTTPS
