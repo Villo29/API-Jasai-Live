@@ -22,8 +22,8 @@ const port = 443;
 
 //Creando Certificado HTTPS
 https.createServer({
-  cert: fs.readFileSync('/etc/letsencrypt/archive/api.jasailive.xyz/fullchain1.pem'),
-  key: fs.readFileSync('/etc/letsencrypt/archive/api.jasailive.xyz/privkey1.pem')
+  cert: fs.readFileSync('/etc/letsencrypt/archive/usuarios.jasailive.xyz/fullchain1.pem'),
+  key: fs.readFileSync('/etc/letsencrypt/archive/usuarios.jasailive.xyz/privkey1.pem')
 }, app).listen(port, function () {
   console.log('Servidor https corriendo en el puerto 443');
 })
